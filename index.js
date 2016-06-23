@@ -57,10 +57,18 @@ function createMisc(isString) {
     return ret;
   }
 
+  function toIndentedJson (data, indent) {
+    if (isNaN(indent)) {
+      indent = 2;
+    }
+    return JSON.stringify(data, null, indent);
+  }
+
   return {
     prependToString: prependToString,
     thousandSeparate : thousandSeparate,
-    readPropertyFromDotDelimitedString: readPropertyFromDotDelimitedString
+    readPropertyFromDotDelimitedString: readPropertyFromDotDelimitedString,
+    toIndentedJson : toIndentedJson
   };
 }
 
