@@ -2,9 +2,10 @@ function createMisc(isString) {
   'use strict';
 
   function prependToString (prefix,min_len, or_text) {
+    //TODO: could lead to errors if prefix is a number, most commonly 0 ...
     if ((!prefix || !prefix.length) ||
       (!min_len || isNaN(min_len) || min_len < 1) ||
-      !or_text) return or_text;
+      !isString(or_text)) return or_text;
 
     or_text += '';
 
