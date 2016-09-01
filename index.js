@@ -1,4 +1,4 @@
-function createMisc(isString) {
+function createMisc(isString, isNull) {
   'use strict';
 
   function prependToString (prefix,min_len, or_text) {
@@ -16,14 +16,56 @@ function createMisc(isString) {
   }
 
   function dive (retobj, n, index, arr){
+    if (!retobj.ctx) return;
+    if (!(n in retobj.ctx)) {
+      retobj.key = null;
+      retobj.ctx = null;
+      retobj.val = null;
+      return;
+    }
     retobj.val = retobj.ctx[n];
+    retobj.key = n;
+
     if (arr.length > index+1){
       retobj.ctx = retobj.val;
     }
   }
 
+
+  function writePropertyFromDelimitedString(obj, path, data, create) {
+    if (!isString(path) && !path) return data;
+    var old = readPropertyFromDotDelimitedString(obj, path, true);
+    
+
+    if (isNull(old.ctx)){
+      if (!create) {
+        throw new Error('No old data on key: '+path);
+      }
+
+      var sk = path.split('.');
+      old = {
+        ctx : obj || {},
+        key : null,
+        val : obj
+      };
+
+
+      while (sk.length > 1){
+        old.key = sk.shift();
+        old.ctx = old.key in old.ctx ? old.ctx[old.key] : old.ctx[old.key] = {};
+      }
+      old.key = sk[0];
+    }
+
+    old.ctx[old.key] = data;
+    return obj;
+  }
+
   function readPropertyFromDotDelimitedString(obj, name, returncontext) {
-    var names = name.split('.'), retobj = {ctx: obj, val: null}, ret;
+    if (!isString(name) && !name) {
+      return returncontext ? {ctx : null, val: obj, key: null} : obj;
+    }
+    var names = name.split('.'), retobj = {ctx: obj, val: null, key:null}, ret;
 
     names.forEach(dive.bind(null, retobj));
 
@@ -78,8 +120,9 @@ function createMisc(isString) {
   return {
     prependToString: prependToString,
     thousandSeparate : thousandSeparate,
+    toIndentedJson : toIndentedJson,
     readPropertyFromDotDelimitedString: readPropertyFromDotDelimitedString,
-    toIndentedJson : toIndentedJson
+    writePropertyFromDelimitedString : writePropertyFromDelimitedString
   };
 }
 
