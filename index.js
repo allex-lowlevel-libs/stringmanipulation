@@ -15,17 +15,27 @@ function createMisc(isString) {
     return or_text;
   }
 
-  function readPropertyFromDotDelimitedString(obj, name) {
-    var names = name.split('.'), retobj = {ctx: obj, map: null}, ret;
-    names.forEach(function(n){
-        retobj.map = retobj.ctx[n];
-        retobj.ctx = retobj.map;
-        });
-    ret = retobj.map;
-    retobj.map = null;
-    retobj.ctx = null;
-    retobj = null;
-    return ret;
+  function dive (retobj, n, index, arr){
+    retobj.val = retobj.ctx[n];
+    if (arr.length > index+1){
+      retobj.ctx = retobj.val;
+    }
+  }
+
+  function readPropertyFromDotDelimitedString(obj, name, returncontext) {
+    var names = name.split('.'), retobj = {ctx: obj, val: null}, ret;
+
+    names.forEach(dive.bind(null, retobj));
+
+    if (returncontext) {
+      return retobj;
+    }else{
+      ret = retobj.val;
+      retobj.val = null;
+      retobj.ctx = null;
+      retobj = null;
+      return ret;
+    }
   }
 
   function thousandSeparate(val, separator) {
