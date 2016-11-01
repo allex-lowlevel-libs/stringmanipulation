@@ -117,12 +117,24 @@ function createMisc(isString, isNull) {
     return JSON.stringify(data, null, indent);
   }
 
+  function capitalize (strng, force_lower) {
+    if (!isString(strng)) throw new Error('Not a string');
+    if (strng.length === 0) return strng;
+
+    var lead = strng.charAt(0).toUpperCase();
+    if (strng.length === 1) return lead;
+    var rest = strng.substr(1);
+
+    return lead+(force_lower ? rest.toLowerCase() : rest);
+  }
+
   return {
     prependToString: prependToString,
     thousandSeparate : thousandSeparate,
     toIndentedJson : toIndentedJson,
     readPropertyFromDotDelimitedString: readPropertyFromDotDelimitedString,
-    writePropertyFromDelimitedString : writePropertyFromDelimitedString
+    writePropertyFromDelimitedString : writePropertyFromDelimitedString,
+    capitalize : capitalize
   };
 }
 

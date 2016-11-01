@@ -49,3 +49,17 @@ describe ('Test readPropertyFromDotDelimitedString', function (){
     expect (rdpf(test_val, '1.1.1.1.', true)).to.be.deep.equal({ctx : null, val : null, key : null});
   });
 });
+
+describe ('Test capitalize', function () {
+  it ('force_lower is false', function () {
+    expect(lib.capitalize('testme')).to.be.equal('Testme');
+    expect(lib.capitalize('testME')).to.be.equal('TestME');
+    expect(lib.capitalize('TestME')).to.be.equal('TestME');
+  });
+
+  it ('force lower is true', function () {
+    expect(lib.capitalize('testme', true)).to.be.equal('Testme');
+    expect(lib.capitalize('testME', true)).to.be.equal('Testme');
+    expect(lib.capitalize('TestME', true)).to.be.equal('Testme');
+  });
+});
