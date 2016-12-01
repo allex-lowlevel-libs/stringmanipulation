@@ -25,7 +25,10 @@ function createMisc(isString, isNull) {
     }
     retobj.val = retobj.ctx[n];
     retobj.key = n;
-
+   
+    if (arr.length === 1) {
+      return;
+    }
     if (arr.length > index+1){
       retobj.ctx = retobj.val;
     }
