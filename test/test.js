@@ -63,3 +63,16 @@ describe ('Test capitalize', function () {
     expect(lib.capitalize('TestME', true)).to.be.equal('Testme');
   });
 });
+
+describe ('Test thousandSeparate', function () {
+  it ('Integers', function () {
+    expect (lib.thousandSeparate(1000000)).to.be.equal ('1 000 000');
+    expect (lib.thousandSeparate(-1000000)).to.be.equal ('-1 000 000');
+  });
+
+  it ('Float', function () {
+    expect (lib.thousandSeparate(1000000.3123123)).to.be.equal ('1 000 000.3123123');
+    expect (lib.thousandSeparate(-1000000.123123)).to.be.equal ('-1 000 000.123123');
+  });
+
+});

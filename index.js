@@ -85,28 +85,34 @@ function createMisc(isString, isNull) {
 
     ///just integers for now...
     var ret = '',
-      intv = Math.floor(val),
+      intv = val > 0 ? Math.floor(val) : Math.ceil(val),
+      f = (val+'').replace(intv+'', ''),
       rest = val - intv,
       s = intv+'',
       start = s.length - 3,
       i;
 
-    //console.log('processing ', val, 'start is ', start);
+    if (arguments.length === 1) {
+      separator = ' ';
+    }
 
     while (start >= 0) {
       i = s.substr(start, 3);
       start -= 3;
       if (ret.length) ret = ' '+ret;
       ret = i+ret;
-      //console.log('i ', i, 'start', start, ret);
     }
 
     if (start === -3)  {
       return ret;
     }
 
-    if (ret.length) ret = ' '+ret;
+    if (ret.length) ret = separator+ret;
     ret = s.substr(0, 3+start) + ret;
+    
+    if (f) {
+      ret += f;
+    }
     return ret;
   }
 
