@@ -143,7 +143,8 @@ function createMisc(isString, isNull) {
     toIndentedJson : toIndentedJson,
     readPropertyFromDotDelimitedString: readPropertyFromDotDelimitedString,
     writePropertyFromDelimitedString : writePropertyFromDelimitedString,
-    capitalize : capitalize
+    capitalize : capitalize,
+    querystring : require('querystring')
   };
 }
 
