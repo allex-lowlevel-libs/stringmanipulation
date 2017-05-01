@@ -1,6 +1,6 @@
 {
   "name": "allex_stringmanipulationlowlevellib",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "JavaScript string manipulators",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,9 @@
     "string",
     "manipulation"
   ],
+  "devDependencies": {
+    "chai": "3.x"
+  },
   "author": "Andrija Petrovic <andrija.hers@gmail.com>",
   "license": "ISC",
   "bugs": {

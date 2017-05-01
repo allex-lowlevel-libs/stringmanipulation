@@ -39,6 +39,7 @@ describe ('Test readPropertyFromDotDelimitedString', function (){
     expect (rdpf(test_val, '1.two')).to.be.deep.equal(test_val[1].two);
     expect (rdpf(test_val, '2')).to.be.null;
     expect (rdpf(test_val, '1.1.1.1.')).to.be.null;
+    expect (rdpf(2, 'a.b.c')).to.be.null;
   });
 
   it ('Do expect context', function () {

@@ -16,8 +16,14 @@ function createMisc(isString, isNull) {
   }
 
   function dive (retobj, n, index, arr){
+    var nisin;
     if (!retobj.ctx) return;
-    if (!(n in retobj.ctx)) {
+    try {
+      nisin = n in retobj.ctx;
+    } catch (ignore) {
+      nisin = false;
+    }
+    if (!nisin) {
       retobj.key = null;
       retobj.ctx = null;
       retobj.val = null;
