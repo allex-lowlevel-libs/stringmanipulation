@@ -143,6 +143,28 @@ function createMisc(isString, isNull) {
     return lead+(force_lower ? rest.toLowerCase() : rest);
   }
 
+  function join2StringsWith (deststr, srcstr, joiner) {
+    var realjoiner = deststr ? joiner || '' : '';
+    return (deststr || '') + (srcstr ? realjoiner+srcstr : '');
+  }
+  function multiJoinReducer (joiner, result, str) {
+    return join2StringsWith(result, str, joiner);
+  }
+  function joinStringsWith () {
+    var args = Array.prototype.slice.call(arguments),
+      joiner = args.pop(),
+      ret;
+    if (args.length<1) {
+      return joiner;
+    }
+    if (args.length<2) {
+      return join2StringsWith(args[0], joiner);
+    }
+    ret = args.reduce(multiJoinReducer.bind(null, joiner), '');
+    joiner = null;
+    return ret;
+  }
+
   return {
     prependToString: prependToString,
     thousandSeparate : thousandSeparate,
@@ -150,6 +172,7 @@ function createMisc(isString, isNull) {
     readPropertyFromDotDelimitedString: readPropertyFromDotDelimitedString,
     writePropertyFromDelimitedString : writePropertyFromDelimitedString,
     capitalize : capitalize,
+    joinStringsWith: joinStringsWith,
     querystring : require('querystring')
   };
 }
