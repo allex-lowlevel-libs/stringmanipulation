@@ -15,6 +15,19 @@ function createMisc(isString, isNull) {
     return or_text;
   }
 
+  function valof (obj, prop) {
+    if (obj == null || typeof obj == 'undefined') {
+      return obj;
+    }
+    if (prop in obj) {
+      return obj[prop];
+    }
+    if (typeof obj.get == 'function') {
+      return obj.get(prop);
+    }
+    return obj[prop];
+  }
+
   function dive (retobj, n, index, arr){
     var nisin;
     if (!retobj.ctx) return;
@@ -29,7 +42,7 @@ function createMisc(isString, isNull) {
       retobj.val = null;
       return;
     }
-    retobj.val = retobj.ctx[n];
+    retobj.val = valof(retobj.ctx, n);
     retobj.key = n;
    
     if (arr.length === 1) {
