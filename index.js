@@ -102,39 +102,46 @@ function createMisc(isString, isNull) {
     }
   }
 
-  function thousandSeparate(val, separator) {
+  function thousandSeparate(val, separator, options) {
+    var ret, intv, f, s, start, i;
+
     if (isNaN(val)) return val;
+    if (val == Infinity) return val;
+    if (val == -Infinity) return val;
 
-    ///just integers for now...
-    var ret = '',
-      intv = val > 0 ? Math.floor(val) : Math.ceil(val),
-      f = (val+'').replace(intv+'', ''),
-      rest = val - intv,
-      s = intv+'',
-      start = s.length - 3,
-      i;
+    options = options || {};
 
-    if (arguments.length === 1) {
-      separator = ' ';
-    }
+    ret = '';
+    intv = val > 0 ? Math.floor(val) : Math.ceil(val);
+    f = (val+'').replace(intv+'', '');
+    s = intv+'';
+    start = s.length - 3;
+
+    separator = separator||' ';
 
     while (start >= 0) {
       i = s.substr(start, 3);
       start -= 3;
-      if (ret.length) ret = ' '+ret;
-      ret = i+ret;
+      ret = join2StringsWith(i, ret, separator);
     }
 
-    if (start === -3)  {
-      return ret;
+    if (start != -3) {
+      if (ret.length && !(start==-2 && s[0]=='-')) {
+        ret = separator+ret;
+      }
+      ret = s.substr(0, 3+start) + ret;
     }
-
-    if (ret.length) ret = separator+ret;
-    ret = s.substr(0, 3+start) + ret;
     
-    if (f) {
-      ret += f;
-    }
+    if ('decimals' in options) {
+      f = Math[options.rounding||'round'](
+        Math.abs(parseFloat(f)||0)*(10**options.decimals)
+      )+''.replace(/\..*/,'');
+      while(f.length<options.decimals) {
+        f = '0'+f;
+      }
+      f = (options.decimalseparator||'.')+f;
+    }  
+    ret += f;
     return ret;
   }
 
