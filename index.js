@@ -1,4 +1,4 @@
-function createMisc(isString, isNull) {
+function createStringManipulations(isString, isNull, AllexJSONizingError) {
   'use strict';
 
   function prependToString (prefix,min_len, or_text) {
@@ -61,7 +61,7 @@ function createMisc(isString, isNull) {
 
     if (isNull(old.ctx)){
       if (!create) {
-        throw new Error('No old data on key: '+path);
+        throw new AllexJSONizingError('NON_EXISTING_KEY', obj, 'Property "'+path+'" does not exist on');
       }
 
       var sk = path.split('.');
@@ -197,4 +197,4 @@ function createMisc(isString, isNull) {
   };
 }
 
-module.exports = createMisc;
+module.exports = createStringManipulations;
